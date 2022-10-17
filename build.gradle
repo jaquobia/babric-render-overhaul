@@ -1,0 +1,89 @@
+plugins {
+    id 'babric-loom' version '0.12-SNAPSHOT'
+    id 'maven-publish'
+
+
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
+}
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+loom {
+    gluedMinecraftJar()
+    customMinecraftManifest.set("https://babric.github.io/manifest-polyfill/${minecraft_version}.json")
+    accessWidenerPath = file("src/main/resources/brh.accesswidener")
+}
+
+project.ext.jomlVersion = "1.10.4"
+
+repositories {
+    maven {
+        name = 'Babric'
+        url = 'https://maven.glass-launcher.net/babric'
+    }
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+configurations {
+//    shade
+    implementation.extendsFrom shadow
+
+}
+allprojects {
+    dependencies {
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "babric:barn:${project.yarn_mappings}"
+        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+        implementation "org.slf4j:slf4j-api:1.8.0-beta4"
+        implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
+        implementation "org.joml:joml:${jomlVersion}"
+
+        implementation 'com.github.jaquobia:frankinglfw:v1.4.0'
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+java {
+    withSourcesJar()
+}
+shadowJar {
+    minimize()
+    dependencies {
+        include(dependency('com.github.jaquobia:frankinglfw:v1.4.0'))
+    }
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+jar {
+//    archiveClassifier = 'slim'
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+    }
+}

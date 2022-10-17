@@ -1,0 +1,29 @@
+accessWidener v2 named
+#accessible class org/lwjgl/input/Cursor$CursorElement
+accessible field net/minecraft/client/Minecraft timer Lnet/minecraft/client/util/Timer;
+accessible field net/minecraft/client/Minecraft resourceDownloadThread Lnet/minecraft/client/resource/ResourceDownloadThread;
+accessible field net/minecraft/client/Minecraft runDirectory Ljava/io/File;
+accessible field net/minecraft/client/Minecraft ticksPlayed I
+accessible field net/minecraft/client/Minecraft lastTickTime J
+accessible field net/minecraft/client/Minecraft fullscreen Z
+accessible field net/minecraft/client/Minecraft field_2777 J
+accessible field net/minecraft/client/Minecraft field_2783 Lnet/minecraft/class_22;
+accessible field net/minecraft/client/Minecraft field_2787 I
+accessible field net/minecraft/client/Minecraft field_2792 Lnet/minecraft/class_182;
+accessible field net/minecraft/client/Minecraft field_2793 Ljava/lang/String;
+accessible field net/minecraft/client/Minecraft field_2794 I
+accessible field net/minecraft/client/Minecraft field_2795 Lnet/minecraft/class_593;
+accessible field net/minecraft/client/Minecraft field_2796 Lnet/minecraft/class_628;
+accessible field net/minecraft/client/Minecraft field_2798 I
+accessible field net/minecraft/client/Minecraft field_2799 I
+accessible method net/minecraft/client/Minecraft logGlError (Ljava/lang/String;)V
+accessible method net/minecraft/client/Minecraft forceResourceReload ()V
+accessible method net/minecraft/client/Minecraft method_2110 (IZ)V
+accessible method net/minecraft/client/Minecraft method_2103 ()V
+accessible method net/minecraft/client/Minecraft method_2107 (I)V
+accessible method net/minecraft/client/Minecraft method_2108 (II)V
+accessible method net/minecraft/client/Minecraft method_2111 (J)V
+accessible method net/minecraft/client/Minecraft method_2150 ()V
+accessible method net/minecraft/client/Minecraft method_2152 ()V
+
+#accessible method net/minecraft/client/gui/screen/Screen keyPressed (CI)V
