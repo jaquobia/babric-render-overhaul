@@ -5,4 +5,4 @@ It only replaces the window with a glfw backend, aims to be as compatible as pos
 May include modules or alternate jars for upgrading the rendering pipeline to modern opengl 
 
 ## License
-Planned for MIT or Mozilla, not sure yet
+MIT
