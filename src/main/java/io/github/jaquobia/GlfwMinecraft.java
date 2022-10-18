@@ -64,6 +64,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
     public int currentMouseButton = 0;
     public boolean currentKeyboardButtonState = false;
     public int currentKeyboardButton = 0;
+    public int currentKeyboardButtonModifiers = 0;
 
     GlfwMinecraft(int width, int height, String username, boolean fullscreen, String host, String port) {
         super(null, null, null, width, height, fullscreen);
@@ -181,21 +182,38 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
     @Override
     public void key(long window, int key, int scancode, int action, int mods) {
+        if (key == Glfw.GLFW_KEY_LEFT_SHIFT)
+            return;
         // Set up dummy lwjgl states
         currentKeyboardButtonState = action >= Glfw.GLFW_PRESS;
         currentKeyboardButton = key;
+        currentKeyboardButtonModifiers = mods;
 
         handleKeyInput(key, action);
     }
 
+    public char getCharacter() {
+        int keyboardButton = currentKeyboardButton;
+        int modifier = currentKeyboardButtonModifiers;
+        String keyName = Glfw.glfwGetKeyName(keyboardButton, Glfw.glfwGetScancode(keyboardButton));
+        char keyChar = (keyName != null ? keyName.charAt(0) : (keyboardButton == Glfw.GLFW_KEY_SPACE) ? ' ' : '\0');
+        if ((modifier & Glfw.GLFW_MOD_CONTROL) > 0 && keyboardButton == Glfw.GLFW_KEY_V) {
+            return 22;
+        }
+        if ((modifier & Glfw.GLFW_MOD_SHIFT) > 0) {
+            if (keyboardButton >= Glfw.GLFW_KEY_APOSTROPHE && keyboardButton <= Glfw.GLFW_KEY_GRAVE_ACCENT)
+                keyChar = LwjglToGlfwHelper.translateKeyWithShift(keyboardButton);
+        }
+
+        return keyChar;
+    }
+
     @Override
     public void character(long window, int codepoint) {
-
     }
 
     @Override
     public void characterMods(long l, int i, int i1) {
-
     }
 
     @Override

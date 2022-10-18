@@ -61,33 +61,8 @@ processResources {
 java {
     withSourcesJar()
 }
-//shadowJar {
-////    minimize()
-//    dependencies {
-//        include(dependency("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}"))
-//    }
-//    from("LICENSE") {
-//        rename { "${it}_${project.archivesBaseName}" }
-//    }
-//}
-
-//task fatJar(type: Jar) {
-//    classifier= 'fat'
-//    from {
-//        include(dependency("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}"))
-//    }
-//    with jar
-//}
 
 jar {
-//    archiveClassifier = 'slim'
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    from {
-//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//    from {
-//        include(dependency("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}"))
-//    }
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }

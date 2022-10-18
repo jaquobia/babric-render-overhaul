@@ -1,6 +1,5 @@
 package io.github.jaquobia.mixin;
 
-import io.github.jaquobia.ExampleMod;
 import io.github.jaquobia.Glfw;
 import io.github.jaquobia.GlfwMinecraft;
 import org.lwjgl.input.Keyboard;
@@ -17,7 +16,7 @@ public class KeyboardMixin {
     @Inject(method = "isKeyDown", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectIsKeyDown(int key, CallbackInfoReturnable<Boolean> cir) {
         int glfwKey = translateKeyToGlfw(key);
-        cir.setReturnValue(Glfw.glfwGetKey(GlfwMinecraft.INSTANCE.window, glfwKey) == Glfw.GLFW_PRESS);
+        cir.setReturnValue(Glfw.glfwGetKey(GlfwMinecraft.INSTANCE.window, glfwKey) >= Glfw.GLFW_PRESS);
     }
     @Inject(method = "next", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectNext(CallbackInfoReturnable<Boolean> cir) {
@@ -34,10 +33,7 @@ public class KeyboardMixin {
     }
     @Inject(method = "getEventCharacter", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectGetCharacter(CallbackInfoReturnable<Character> cir) {
-        int keyboardButton = GlfwMinecraft.INSTANCE.currentKeyboardButton;
-        int scancode = Glfw.glfwGetScancode(keyboardButton);
-        String keyName = Glfw.glfwGetKeyName(keyboardButton, scancode);
-        cir.setReturnValue((keyName != null ? keyName.charAt(0) : (keyboardButton == Glfw.GLFW_KEY_SPACE) ? ' ' : '\0'));
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.getCharacter());
     }
     @Inject(method = "getEventKeyState", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectGetEventKeyState(CallbackInfoReturnable<Boolean> cir) {

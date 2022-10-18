@@ -31,7 +31,7 @@ public class MouseMixin {
     }
     @Inject(method = "isButtonDown",at = @At("HEAD"), cancellable = true, remap = false)
     private static void injectIsButtonDown(int button, CallbackInfoReturnable<Boolean> cir) {
-        boolean isButtonDown = Glfw.glfwGetMouseButton(GlfwMinecraft.INSTANCE.window, button) == Glfw.GLFW_PRESS;
+        boolean isButtonDown = Glfw.glfwGetMouseButton(GlfwMinecraft.INSTANCE.window, button) >= Glfw.GLFW_PRESS;
         cir.setReturnValue(isButtonDown);
     }
     @Inject(method = "next",at = @At("HEAD"), cancellable = true, remap = false)
