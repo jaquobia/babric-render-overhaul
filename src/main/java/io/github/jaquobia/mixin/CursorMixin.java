@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.nio.IntBuffer;
 
+/**
+ * prevent crashing
+ */
 @Mixin(Cursor.class)
 public class CursorMixin {
     @Inject(method = "createCursors", at = @At("HEAD"), remap = false, cancellable = true)

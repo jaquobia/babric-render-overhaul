@@ -7,6 +7,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * We no longer use this class, just pretend a display always exists and "updates"
+ */
 @Mixin(Display.class)
 public class DisplayMixin {
     @Inject(method = "update()V", at = @At("HEAD"), cancellable = true, remap = false)

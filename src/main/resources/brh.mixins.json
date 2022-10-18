@@ -4,19 +4,15 @@
   "package": "io.github.jaquobia.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "AppletMainMixin",
-    "CursorMixin",
-    "DisplayMixin",
-    "KeyboardMixin",
-    "KnotClientMixin",
-    "MouseMixin"
   ],
   "client": [
     "Class_555Mixin",
     "MinecraftAppletMixin",
-    "MinecraftMixin",
-    "MixinButtonWidget",
-    "ScreenMixin"
+    "ScreenMixin",
+    "CursorMixin",
+    "DisplayMixin",
+    "KeyboardMixin",
+    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

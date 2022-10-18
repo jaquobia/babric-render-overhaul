@@ -44,7 +44,9 @@ allprojects {
         implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
         implementation "org.joml:joml:${jomlVersion}"
 
-        implementation 'com.github.jaquobia:frankinglfw:v1.4.0'
+        implementation("com.google.code.gson:gson:2.8.6")
+
+        implementation include("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}")
     }
 }
 
@@ -59,18 +61,33 @@ processResources {
 java {
     withSourcesJar()
 }
-shadowJar {
-    minimize()
-    dependencies {
-        include(dependency('com.github.jaquobia:frankinglfw:v1.4.0'))
-    }
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-}
+//shadowJar {
+////    minimize()
+//    dependencies {
+//        include(dependency("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}"))
+//    }
+//    from("LICENSE") {
+//        rename { "${it}_${project.archivesBaseName}" }
+//    }
+//}
+
+//task fatJar(type: Jar) {
+//    classifier= 'fat'
+//    from {
+//        include(dependency("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}"))
+//    }
+//    with jar
+//}
 
 jar {
 //    archiveClassifier = 'slim'
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//    from {
+//        include(dependency("com.github.jaquobia:frankinglfw:${project.frankinglfw_version}"))
+//    }
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }

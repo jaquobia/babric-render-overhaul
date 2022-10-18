@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Redirect to use glfw inputs
+ */
 @Mixin(Mouse.class)
 public class MouseMixin {
     @Inject(method = "getX",at = @At("HEAD"), cancellable = true, remap = false)

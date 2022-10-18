@@ -2,6 +2,7 @@ package io.github.jaquobia;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.*;
 import net.minecraft.achievement.Achievements;
 import net.minecraft.client.Minecraft;
@@ -46,6 +47,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         }
         Glfw.glfwDestroyWindow(INSTANCE.window);
         Glfw.glfwTerminate();
+        LOGGER.info("Terminating GLFW window");
         System.exit(1); // Our window closed, don't continue and open normal mc's window
     }
 
@@ -91,6 +93,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         long monitor = fullscreen ? Glfw.glfwGetPrimaryMonitor() : 0;
         this.window = Glfw.glfwCreateWindow(displayWidth, displayHeight, "Minecraft b1.7.3", monitor, 0);
         Glfw.glfwSetCallback(this);
+        LOGGER.info("Created Glfw Window!");
     }
 
     @Override
@@ -183,10 +186,6 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         currentKeyboardButton = key;
 
         handleKeyInput(key, action);
-        // Conditioning based on current screen seems to cause more issues
-//        if ((this.currentScreen == null || this.currentScreen.field_155)) {
-//        }
-
     }
 
     @Override
@@ -208,21 +207,17 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
     public void mouseButton(long window, int button, boolean pressed, int mods) {
         currentMouseButtonState = pressed;
         currentMouseButton = button;
-//        if (this.currentScreen == null || this.currentScreen.field_155) {
+
         handleMouseButton();
-//            return;
-//        }
     }
 
     public int getMouseDX() {
-//        return this.mouseX - this.mouseLX;
         int temp = this.mouseDX;
         this.mouseDX = 0;
         return temp;
     }
 
     public int getMouseDY() {
-//        return this.mouseY - this.mouseLY;
         int temp = this.mouseDY;
         this.mouseDY = 0;
         return temp;
@@ -259,6 +254,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         this.running = true;
 
         this.myTrimmedInit();
+        LOGGER.info("Initialized!");
 
         try {
             long time = System.currentTimeMillis();
@@ -464,78 +460,84 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
     public void handleKeyInput(int key, int action) {
         boolean pressed = action == Glfw.GLFW_PRESS;
+        // Keybinds that should only respond on press
         if (pressed) {
-            if (key == translateKeyToGlfw(this.options.fogKey.code)) {
-                this.options.setInt(Option.RENDER_DISTANCE, !Keyboard.isKeyDown(Glfw.GLFW_KEY_LEFT_SHIFT) && !Keyboard.isKeyDown(Glfw.GLFW_KEY_RIGHT_SHIFT) ? 1 : -1);
-                return;
-            }
-            if (key >= Glfw.GLFW_KEY_1 && key <= Glfw.GLFW_KEY_9) {
-                this.player.inventory.selectedSlot = key - Glfw.GLFW_KEY_1;
-                return;
-            }
             if (key == Glfw.GLFW_KEY_F11) {
                 this.toggleFullscreen();
                 return;
             }
-            if (currentScreen == null) {
-                if (key == Glfw.GLFW_KEY_ESC) {
-                    this.method_2135();
-                    return;
-                }
+            // Keybinds only usable in the world
+            if (world != null && this.player != null && this.player.inventory != null) {
+                if (currentScreen == null) {
+                    if (key >= Glfw.GLFW_KEY_1 && key <= Glfw.GLFW_KEY_9) {
+                        this.player.inventory.selectedSlot = key - Glfw.GLFW_KEY_1;
+                        return;
+                    }
 
-                if (key == Glfw.GLFW_KEY_T && Glfw.glfwGetKey(window, Glfw.GLFW_KEY_F3) == Glfw.GLFW_PRESS) {
-                    this.forceResourceReload();
-                    return;
-                }
+                    if (key == translateKeyToGlfw(this.options.fogKey.code)) {
+                        this.options.setInt(Option.RENDER_DISTANCE, !Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 1 : -1);
+                        return;
+                    }
 
-                if (key == Glfw.GLFW_KEY_F1) {
-                    this.options.hideHud = !this.options.hideHud;
-                    return;
-                }
+                    if (key == Glfw.GLFW_KEY_ESC) {
+                        this.method_2135();
+                        return;
+                    }
 
-                if (key == Glfw.GLFW_KEY_F3) {
-                    this.options.debugHud = !this.options.debugHud;
-                    return;
-                }
+                    if (key == Glfw.GLFW_KEY_T && Glfw.glfwGetKey(window, Glfw.GLFW_KEY_F3) == Glfw.GLFW_PRESS) {
+                        this.forceResourceReload();
+                        return;
+                    }
 
-                if (key == Glfw.GLFW_KEY_F5) {
-                    this.options.thirdPerson = !this.options.thirdPerson;
-                    return;
-                }
-                if (key == Glfw.GLFW_KEY_F8) {
-                    this.options.cinematicMode = !this.options.cinematicMode;
-                    return;
-                }
+                    if (key == Glfw.GLFW_KEY_F1) {
+                        this.options.hideHud = !this.options.hideHud;
+                        return;
+                    }
 
-                if (key == translateKeyToGlfw(this.options.inventoryKey.code)) {
-                    this.setScreen(new class_585(this.player));
-                    return;
-                }
+                    if (key == Glfw.GLFW_KEY_F3) {
+                        this.options.debugHud = !this.options.debugHud;
+                        return;
+                    }
 
-                if (key == translateKeyToGlfw(this.options.dropKey.code)) {
-                    this.player.dropSelectedItem();
-                    return;
-                }
+                    if (key == Glfw.GLFW_KEY_F5) {
+                        this.options.thirdPerson = !this.options.thirdPerson;
+                        return;
+                    }
+                    if (key == Glfw.GLFW_KEY_F8) {
+                        this.options.cinematicMode = !this.options.cinematicMode;
+                        return;
+                    }
 
-                if (this.isWorldRemote() && key == translateKeyToGlfw(this.options.chatKey.code)) {
-                    this.setScreen(new ChatScreen());
-                    return;
+                    if (key == translateKeyToGlfw(this.options.inventoryKey.code)) {
+                        this.setScreen(new class_585(this.player));
+                        return;
+                    }
+
+                    if (key == translateKeyToGlfw(this.options.dropKey.code)) {
+                        this.player.dropSelectedItem();
+                        return;
+                    }
+
+                    if (this.isWorldRemote() && key == translateKeyToGlfw(this.options.chatKey.code)) {
+                        this.setScreen(new ChatScreen());
+                        return;
+                    }
+                } else { // There is a screen
+
                 }
             }
         }
+        // Update gui or player movement
         if (this.currentScreen != null) {
             this.currentScreen.onKeyboardEvent();
-        } else {
+        } else if (this.player != null) {
             this.player.method_136(Keyboard.getEventKey(), Keyboard.getEventKeyState());
         }
     }
 
     public void handleMouseButton() {
-
-
         if (this.currentScreen == null || this.currentScreen.field_155) {
             this.method_2110(0, this.currentScreen == null && Mouse.isButtonDown(0) && this.field_2778);
-//            return;
         }
         if (this.currentScreen == null) {
 
@@ -562,12 +564,12 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
     }
 
     void handleMouseScroll(int delta) {
-        if (delta != 0) {
+        if (this.world != null && this.currentScreen == null && this.player != null && this.player.inventory != null)
             this.player.inventory.method_692(delta);
-            if (this.options.field_1445) {
-                this.options.field_1448 += (float) (delta > 0 ? 1 : -1) * 0.25F;
-            }
+        if (this.options.field_1445) {
+            this.options.field_1448 += (float) (delta > 0 ? 1 : -1) * 0.25F;
         }
+        FabricLoader.getInstance().isModLoaded("");
     }
 
     @Override

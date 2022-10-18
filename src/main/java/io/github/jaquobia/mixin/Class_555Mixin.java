@@ -12,6 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Handles Refresh rates and mouse deltas
+ */
 @Mixin(class_555.class)
 public abstract class Class_555Mixin {
     @Shadow

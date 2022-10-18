@@ -12,19 +12,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.applet.Applet;
 
+/**
+ * Steal the applet and its information
+ */
 @Mixin(MinecraftApplet.class)
 public abstract class MinecraftAppletMixin extends Applet {
-    @Shadow public abstract void stop();
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    public void injectConstructor(CallbackInfo ci) {
-        // Stop the applet from running
-//        this.stop();
-//        this.destroy();
-        // Start the glfw window instead
-//        GlfwMinecraft.run();
-    }
-
     @Inject(method = "init", at = @At("HEAD"), remap = false, cancellable = true)
     public void injectInit(CallbackInfo ci) {
         ExampleMod.LOGGER.info("Stand-alone: " + this.getParameter("stand-alone"));

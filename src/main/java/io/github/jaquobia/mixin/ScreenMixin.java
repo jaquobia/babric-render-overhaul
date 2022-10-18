@@ -1,6 +1,5 @@
 package io.github.jaquobia.mixin;
 
-import io.github.jaquobia.Glfw;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import org.lwjgl.input.Keyboard;
@@ -11,8 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static io.github.jaquobia.LwjglToGlfwHelper.translateKeyToLWJGL;
-
+/**
+ * Prob not necessary anymore, but I like the simplifications
+ */
 @Mixin(Screen.class)
 public class ScreenMixin {
 
@@ -31,11 +31,6 @@ public class ScreenMixin {
     }
     @Shadow
     protected void mouseReleased(int i, int j, int k) {
-    }
-
-    @Inject(method = "tickInput", at = @At("HEAD"), cancellable = true)
-    void injectTickInput(CallbackInfo ci) {
-//        ci.cancel();
     }
 
     @Inject(method = "onMouseEvent", at = @At("HEAD"), cancellable = true)

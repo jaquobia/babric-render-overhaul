@@ -1,5 +1,5 @@
-accessWidener v2 named
-#accessible class org/lwjgl/input/Cursor$CursorElement
+accessWidener v1 named
+
 accessible field net/minecraft/client/Minecraft timer Lnet/minecraft/client/util/Timer;
 accessible field net/minecraft/client/Minecraft resourceDownloadThread Lnet/minecraft/client/resource/ResourceDownloadThread;
 accessible field net/minecraft/client/Minecraft runDirectory Ljava/io/File;
@@ -25,5 +25,3 @@ accessible method net/minecraft/client/Minecraft method_2108 (II)V
 accessible method net/minecraft/client/Minecraft method_2111 (J)V
 accessible method net/minecraft/client/Minecraft method_2150 ()V
 accessible method net/minecraft/client/Minecraft method_2152 ()V
-
-#accessible method net/minecraft/client/gui/screen/Screen keyPressed (CI)V
