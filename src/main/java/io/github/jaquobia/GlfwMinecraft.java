@@ -185,46 +185,35 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
     @Override
     public void key(long window, int key, int scancode, int action, int mods) {
-        if (key == Glfw.GLFW_KEY_LEFT_SHIFT)
-            return;
         // Set up dummy lwjgl states
         currentKeyboardButtonState = action >= Glfw.GLFW_PRESS;
         currentKeyboardButton = key;
         currentKeyboardButtonModifiers = mods;
 
-        delegateToCharCallback = key >= Glfw.GLFW_KEY_APOSTROPHE && key <= Glfw.GLFW_KEY_GRAVE_ACCENT;
+        // Delegate if shift-modifiable
+        delegateToCharCallback = action != Glfw.GLFW_RELEASE && key >= Glfw.GLFW_KEY_APOSTROPHE && key <= Glfw.GLFW_KEY_GRAVE_ACCENT;
         if (delegateToCharCallback) {
             return;
         }
-        currentKeyboardButtonCharacter = getCharacter();
+
+        // Key is non-shift-modifiable
+        currentKeyboardButtonCharacter = currentKeyboardButton == Glfw.GLFW_KEY_SPACE ? ' ' : '\0';
         handleKeyInput(key, action);
     }
 
-    public char getCharacter() {
-        int keyboardButton = currentKeyboardButton;
-        int modifier = currentKeyboardButtonModifiers;
-        String keyName = Glfw.glfwGetKeyName(keyboardButton, Glfw.glfwGetScancode(keyboardButton));
-        char keyChar = (keyName != null ? keyName.charAt(0) : (keyboardButton == Glfw.GLFW_KEY_SPACE) ? ' ' : '\0');
-//        if ((modifier & Glfw.GLFW_MOD_CONTROL) > 0 && keyboardButton == Glfw.GLFW_KEY_V) {
-//            return 22;
-//        }
-//        if ((modifier & Glfw.GLFW_MOD_SHIFT) > 0) {
-//            if (true)
-//                keyChar = LwjglToGlfwHelper.translateKeyWithShift(keyboardButton);
-//        }
-
-        return keyChar;
+    public String getKeyName() {
+        return Glfw.glfwGetKeyName(currentKeyboardButton, Glfw.glfwGetScancode(currentKeyboardButton));
     }
 
     @Override
     public void character(long window, int codepoint) {
         if (delegateToCharCallback) {
-            int modifier = currentKeyboardButtonModifiers;
+            int modifier = currentKeyboardButtonModifiers; // maybe expand on this later
             if ((modifier & Glfw.GLFW_MOD_CONTROL) > 0 && currentKeyboardButton == Glfw.GLFW_KEY_V) {
                 currentKeyboardButtonCharacter = 22;
             } else
                 currentKeyboardButtonCharacter = (char) codepoint;
-            handleKeyInput(currentKeyboardButton, currentKeyboardButtonState ? 1 : 0);
+            handleKeyInput(currentKeyboardButton, 1);
         }
     }
 
