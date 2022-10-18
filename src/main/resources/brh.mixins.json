@@ -8,7 +8,6 @@
   "client": [
     "Class_555Mixin",
     "MinecraftAppletMixin",
-    "ScreenMixin",
     "CursorMixin",
     "DisplayMixin",
     "KeyboardMixin",

@@ -4,22 +4,22 @@
   "version": "${version}",
 
   "name": "Babric Render Overhaul",
-  "description": "Rebase minecraft's rendering ontop of glfw",
+  "description": "Rebase minecraft's rendering on top of glfw",
   "authors": [
     "Jaquobia"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/jaquobia/",
+    "sources": "https://github.com/jaquobia/babric-render-overhaul"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/brh/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
-      "io.github.jaquobia.ExampleMod"
+      "io.github.jaquobia.BrhMod"
     ]
   },
   "mixins": [
@@ -29,8 +29,5 @@
   "depends": {
     "fabricloader": ">=0.13.3",
     "minecraft": "1.0.0-beta.7.3"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

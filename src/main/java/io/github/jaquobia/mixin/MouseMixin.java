@@ -34,14 +34,22 @@ public class MouseMixin {
         boolean isButtonDown = Glfw.glfwGetMouseButton(GlfwMinecraft.INSTANCE.window, button) >= Glfw.GLFW_PRESS;
         cir.setReturnValue(isButtonDown);
     }
+
     @Inject(method = "next",at = @At("HEAD"), cancellable = true, remap = false)
     private static void injectNext(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
+
+    @Inject(method = "getButtonIndex", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetButtonIndex(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.currentMouseButton);
+    }
+
     @Inject(method = "getEventButtonState", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectGetEventButtonState(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(GlfwMinecraft.INSTANCE.currentMouseButtonState);
     }
+
     @Inject(method = "getEventButton", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectGetEventButton(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(GlfwMinecraft.INSTANCE.currentMouseButton);
@@ -49,5 +57,31 @@ public class MouseMixin {
     @Inject(method = "isCreated", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectIsCreated(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
+    }
+
+    @Inject(method = "getEventDX", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetEventDX(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.mouseDX);
+    }
+    @Inject(method = "getEventDY", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetEventDY(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.mouseDY);
+    }
+    @Inject(method = "getDX", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetDX(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.mouseDX);
+    }
+    @Inject(method = "getDY", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetDY(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.mouseDY);
+    }
+
+    @Inject(method = "getEventDWheel", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetEventDWheel(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.mouseScroll);
+    }
+    @Inject(method = "getDWheel", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void injectGetDWheel(CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.mouseScroll);
     }
 }

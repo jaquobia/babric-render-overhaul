@@ -33,7 +33,7 @@ import static io.github.jaquobia.LwjglToGlfwHelper.translateKeyToGlfw;
 @Environment(EnvType.CLIENT)
 public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
-    static final Logger LOGGER = ExampleMod.LOGGER;
+    static final Logger LOGGER = BrhMod.LOGGER;
     static boolean glfwInit = Glfw.glfwInit(); // A nice way to initialize glfw and report it at the same time
     public static GlfwMinecraft INSTANCE = null; // A static instance for … whenever it is needed?
 
@@ -59,6 +59,8 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
     public int mouseX = 0, mouseY = 0;
     public int mouseLX = 0, mouseLY = 0; // used for Mouse.DX() mouse.DY()
     public int mouseDX = 0, mouseDY = 0;
+
+    public int mouseScroll = 0;
 
     public boolean currentMouseButtonState = false;
     public int currentMouseButton = 0;
@@ -174,8 +176,8 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
     public void windowFramebufferSize(long window, int width, int height) {
         this.displayWidth = width;
         this.displayHeight = height;
-        GL11.glViewport(0, 0, width, height);
         setScreen(currentScreen);
+        GL11.glViewport(0, 0, width, height);
     }
 
     @Override
@@ -263,6 +265,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
     @Override
     public void scroll(long window, double scrollX, double scrollY) {
+        mouseScroll = (int)scrollY;
         handleMouseScroll((int)scrollY);
     }
     /// END GLFW CALLBACKS
@@ -639,6 +642,11 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
             this.setScreen(null);
         }
 
+        // Reduce Hit Timer Cooldown
+        if (this.field_2787 > 0) {
+            --this.field_2787;
+        }
+
         // Update Screen Inputs
         if (this.currentScreen != null) {
             this.field_2787 = 10000;
@@ -653,6 +661,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
             this.method_2107(mouseButton);
             this.field_2798 = this.ticksPlayed;
         }
+
         // Break Blocks
         if (this.currentScreen == null || this.currentScreen.field_155) {
             this.method_2110(0, this.currentScreen == null && Mouse.isButtonDown(0) && this.field_2778);
