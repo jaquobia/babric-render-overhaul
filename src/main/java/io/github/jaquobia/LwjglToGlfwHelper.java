@@ -10,8 +10,15 @@ public class LwjglToGlfwHelper {
         return GlfwToLwjgl[key];
     }
 
+    public static char translateKeyWithShift(int key) {
+        int index = key - Glfw.GLFW_KEY_APOSTROPHE;
+        return index >= 0 ? SHIFT_KEY_ALTS[index] : '\0';
+    }
+
     private static final int[] LwjglToGlfw;
     private static final int[] GlfwToLwjgl;
+
+    private static final char[] SHIFT_KEY_ALTS;
 
     static {
         LwjglToGlfw = new int[Glfw.GLFW_KEY_LAST];
@@ -151,6 +158,68 @@ public class LwjglToGlfwHelper {
        for ( int i = 0; i < LwjglToGlfw.length; i++ ) {
            GlfwToLwjgl[LwjglToGlfw[i]] = i;
        }
+
+
+        SHIFT_KEY_ALTS = new char[] {
+                '\"',
+                '\0',
+                '\0',
+                '\0',
+                '\0',
+                '<',
+                '_',
+                '>',
+                '?',
+                ')',
+                '!',
+                '@',
+                '#',
+                '$',
+                '%',
+                '^',
+                '&',
+                '*',
+                '(',
+                '\0',
+                ':',
+                '\0',
+                '+',
+                '\0',
+                '\0',
+                '\0',
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'H',
+                'I',
+                'J',
+                'K',
+                'L',
+                'M',
+                'N',
+                'O',
+                'P',
+                'Q',
+                'R',
+                'S',
+                'T',
+                'U',
+                'V',
+                'W',
+                'X',
+                'Y',
+                'Z',
+                '{',
+                '|',
+                '}',
+                '\0',
+                '\0',
+                '~',
+        };
 
     }
 }
