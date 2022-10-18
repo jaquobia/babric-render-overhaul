@@ -33,7 +33,7 @@ public class KeyboardMixin {
     }
     @Inject(method = "getEventCharacter", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectGetCharacter(CallbackInfoReturnable<Character> cir) {
-        cir.setReturnValue(GlfwMinecraft.INSTANCE.getCharacter());
+        cir.setReturnValue(GlfwMinecraft.INSTANCE.currentKeyboardButtonCharacter);
     }
     @Inject(method = "getEventKeyState", at = @At("HEAD"), remap = false, cancellable = true)
     private static void injectGetEventKeyState(CallbackInfoReturnable<Boolean> cir) {

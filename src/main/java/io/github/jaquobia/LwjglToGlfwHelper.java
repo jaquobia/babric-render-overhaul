@@ -10,18 +10,11 @@ public class LwjglToGlfwHelper {
         return GlfwToLwjgl[key];
     }
 
-    public static char translateKeyWithShift(int key) {
-        int index = key - Glfw.GLFW_KEY_APOSTROPHE;
-        return index >= 0 ? SHIFT_KEY_ALTS[index] : '\0';
-    }
-
     private static final int[] LwjglToGlfw;
     private static final int[] GlfwToLwjgl;
 
-    private static final char[] SHIFT_KEY_ALTS;
-
     static {
-        LwjglToGlfw = new int[Glfw.GLFW_KEY_LAST];
+        LwjglToGlfw = new int[Glfw.GLFW_KEY_LAST + 1];
         LwjglToGlfw[Keyboard.KEY_ESCAPE] = Glfw.GLFW_KEY_ESCAPE;
         LwjglToGlfw[Keyboard.KEY_1] = Glfw.GLFW_KEY_1;
         LwjglToGlfw[Keyboard.KEY_2] = Glfw.GLFW_KEY_2;
@@ -154,72 +147,10 @@ public class LwjglToGlfwHelper {
 //        LwjglToGlfw[Keyboard.KEY_SLEEP] = Glfw.GLFW_KEY_;
 
 
-        GlfwToLwjgl = new int[Glfw.GLFW_KEY_LAST];
+        GlfwToLwjgl = new int[Glfw.GLFW_KEY_LAST + 1];
        for ( int i = 0; i < LwjglToGlfw.length; i++ ) {
            GlfwToLwjgl[LwjglToGlfw[i]] = i;
        }
-
-
-        SHIFT_KEY_ALTS = new char[] {
-                '\"',
-                '\0',
-                '\0',
-                '\0',
-                '\0',
-                '<',
-                '_',
-                '>',
-                '?',
-                ')',
-                '!',
-                '@',
-                '#',
-                '$',
-                '%',
-                '^',
-                '&',
-                '*',
-                '(',
-                '\0',
-                ':',
-                '\0',
-                '+',
-                '\0',
-                '\0',
-                '\0',
-                'A',
-                'B',
-                'C',
-                'D',
-                'E',
-                'F',
-                'G',
-                'H',
-                'I',
-                'J',
-                'K',
-                'L',
-                'M',
-                'N',
-                'O',
-                'P',
-                'Q',
-                'R',
-                'S',
-                'T',
-                'U',
-                'V',
-                'W',
-                'X',
-                'Y',
-                'Z',
-                '{',
-                '|',
-                '}',
-                '\0',
-                '\0',
-                '~',
-        };
 
     }
 }
