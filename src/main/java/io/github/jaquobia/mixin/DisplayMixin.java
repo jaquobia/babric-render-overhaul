@@ -1,5 +1,7 @@
 package io.github.jaquobia.mixin;
 
+import io.github.jaquobia.Glfw;
+import io.github.jaquobia.GlfwMinecraft;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,5 +22,11 @@ public class DisplayMixin {
     private static void injectIsActive(CallbackInfoReturnable<Boolean> cir) {
 
         cir.setReturnValue(true);
+    }
+
+    @Inject(method = "swapBuffers", at = @At("HEAD"), cancellable = true, remap = false)
+    private static void injectSwapBuffers(CallbackInfo ci) {
+        Glfw.glfwSwapBuffers(GlfwMinecraft.INSTANCE.window);
+        ci.cancel();
     }
 }

@@ -11,7 +11,6 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.Option;
-import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.resource.ResourceDownloadThread;
@@ -380,41 +379,6 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
     }
 
-    // Is this the mojang logo?
-    void myMethod_2150() {
-        class_564 var1 = new class_564(this.options, this.displayWidth, this.displayHeight);
-        GL11.glClear(16640);
-        GL11.glMatrixMode(5889);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0.0, var1.field_2389, var1.field_2390, 0.0, 1000.0, 3000.0);
-        GL11.glMatrixMode(5888);
-        GL11.glLoadIdentity();
-        GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
-        GL11.glViewport(0, 0, this.displayWidth, this.displayHeight);
-        GL11.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
-        Tessellator var2 = Tessellator.INSTANCE;
-        GL11.glDisable(2896);
-        GL11.glEnable(3553);
-        GL11.glDisable(2912);
-        GL11.glBindTexture(3553, this.textureManager.getTextureId("/title/mojang.png"));
-        var2.startQuads();
-        var2.color(16777215);
-        var2.vertex(0.0, this.displayHeight, 0.0, 0.0, 0.0);
-        var2.vertex(this.displayWidth, this.displayHeight, 0.0, 0.0, 0.0);
-        var2.vertex(this.displayWidth, 0.0, 0.0, 0.0, 0.0);
-        var2.vertex(0.0, 0.0, 0.0, 0.0, 0.0);
-        var2.draw();
-        short var3 = 256;
-        short var4 = 256;
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        var2.color(16777215);
-        this.method_2109((var1.method_1857() - var3) / 2, (var1.method_1858() - var4) / 2, 0, 0, var3, var4);
-        GL11.glDisable(2896);
-        GL11.glDisable(2912);
-        GL11.glEnable(3008);
-        GL11.glAlphaFunc(516, 0.1F);
-    }
-
     void myTrimmedInit() {
         createWindow();
 
@@ -441,6 +405,8 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         EntityRenderDispatcher.field_2489.field_2494 = new class_556(this);
         this.field_2773 = new class_96(this.session, this.runDirectory);
         Achievements.OPEN_INVENTORY.method_1042(new class_637());
+        // Display logo while loading
+        method_2150();
         this.field_2767 = new MyMouseHelper();
 
         this.logGlError("Pre startup");
@@ -547,8 +513,6 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
                         this.setScreen(new ChatScreen());
                         return;
                     }
-                } else { // There is a screen
-
                 }
             }
         }
@@ -667,8 +631,8 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         }
 
         // Remove mouse panning
-        this.mouseLX = this.mouseX;
-        this.mouseLY = this.mouseY;
+//        this.mouseLX = this.mouseX;
+//        this.mouseLY = this.mouseY;
 
         if (this.world != null) {
             if (this.player != null) {
