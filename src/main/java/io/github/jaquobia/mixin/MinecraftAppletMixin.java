@@ -31,7 +31,7 @@ public abstract class MinecraftAppletMixin extends Applet {
 
         String host = this.getDocumentBase().getHost();
         String port = String.valueOf(this.getDocumentBase().getPort());
-        //
+
         GlfwMinecraft.runWindow(width, height, username, fullscreen, host, port);
         // Force a system exit, prevents applet from starting
         ci.cancel();

@@ -70,7 +70,7 @@ public abstract class Class_555Mixin {
             mc.lastFpsLimit = mc.options.fpsLimit;
         }
 
-        if (!mc.field_2821) {
+        if (!mc.field_2821 && mc.displayWidth * mc.displayHeight > 0) {
             field_2340 = mc.options.anaglyph3d;
             class_564 RenderScaler = new class_564(mc.options, mc.displayWidth, mc.displayHeight);
             int scaleX = RenderScaler.method_1857();

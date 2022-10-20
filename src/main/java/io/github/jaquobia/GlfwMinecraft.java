@@ -423,7 +423,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
 
         // Pass in a fake context, so we can just use opengl.
         try {
-            GLContext.useContext(new ContextHack());
+            GLContext.useContext(new Object());
         } catch (LWJGLException e) {
             throw new RuntimeException(e);
         }
@@ -480,8 +480,7 @@ public class GlfwMinecraft extends Minecraft implements GlfwCallback {
         this.logGlError("Post startup");
         this.inGameHud = new InGameHud(this);
         this.setScreen(this.field_2793 != null ? new ConnectScreen(this, this.field_2793, this.field_2794) : new TitleScreen());
-
-        this.lastFpsLimit = this.options.fpsLimit;
+        this.lastFpsLimit = -1;
     }
 
     public void handleKeyInput(int key, int action) {
