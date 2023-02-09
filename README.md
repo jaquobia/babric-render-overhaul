@@ -1,8 +1,7 @@
 # Babric Render Overhaul
-It only replaces the window with a glfw backend, aims to be as compatible as possible while being a completely invisible change to the user
 
-## Future
-May include modules or alternate jars for upgrading the rendering pipeline to modern opengl 
+This mod is fundamentally a complete failure, it's quite an invasive and challenging mod to implement, and the name also sucks.  
+Basically focus all attention on [Nawt](https://github.com/jaquobia/Nawt), the shiny new toy that is *actually* compatible with most beta mods and has a good name.
 
 ## License
 MIT
